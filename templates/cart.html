@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>سبد خرید</h3>
+                <span><a href="{% url 'home' %}">خانه</a> > سبد خرید</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            {% if cart.items.all %}
+                {% for item in cart.items.all %}
+                    <div class="cart-item item mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3">
+                                <img src="{{ item.game.image.url }}" class="img-fluid rounded">
+                            </div>
+                            <div class="col-lg-4">
+                                <h4>{{ item.game.title }}</h4>
+                                <span>{{ item.game.category }}</span>
+                            </div>
+                            <div class="col-lg-2 text-center">
+                                <strong>
+                                    ${{ item.game.price }}
+                                    <a href="{% url 'remove_item' item.id %}">
+                                        <i class="fa fa-trash" style="color:red;"></i>
+                                    </a>
+                                </strong>
+                            </div>
+                            <div class="col-lg-1 text-center">
+                                <div class="col-lg-2 text-center">
+                                    <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-light">
+                                        -
+                                    </a>
+                                    <strong>
+                                        {{ item.quantity }}
+                                    </strong>
+                                    <a href="{% url 'increase_quantity' item.id %}" class="btn btn-light">
+                                        +
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 text-end">
+                                <strong>
+                                    ${{ item.total_price }}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning">
+
+                    سبد خرید شما خالی است.
+                </div>
+            {% endif %}
+          </div>
+            <div class="col-lg-4">
+                <div class="summary-box">
+                    <h4>خلاصه سفارش</h4>
+                    <hr>
+                    {% for item in cart.items.all %}
+                        <p style="...">
+                            {{ item.game.title }}
+                            <span>{{ item.quantity }} × ${{ item.game.price }} = ${{ item.total_price }}</span>
+                        </p>
+                    {% endfor %}
+                    <hr>
+                    <p>جمع کل <span>${{ cart.total_price }}</span></p>
+                    <a href="{% url 'checkout' %}" class="main-button">ادامه پرداخت</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

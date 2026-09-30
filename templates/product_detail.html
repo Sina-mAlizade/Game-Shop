@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    محصول
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h3>{{ game.title }}</h3>
+          <span class="breadcrumb"><a href="#">خانه</a>  >  <a href="#">فروشگاه</a>  >  {{ game.title }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="single-product section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="left-image">
+            <img src="{{ game.image.url }}" alt="">
+          </div>
+        </div>
+        <div class="col-lg-6 align-self-center">
+          <h4>{{ game.title }}</h4>
+          <span class="price"><em>{{ game.price }}</em> {{ game.price }}</span>
+          <p>
+              {{ game.description }}
+          </p>
+          <form action="{% url 'add_to_cart' game.id %}" method="POST">
+              {% csrf_token %}
+              <input
+                      type="number"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      class="form-control"
+              >
+              <button type="button" id="addToCartBtn" data-game-id="{{ game.id }}" class="btn btn-primary">
+                  <i class="fa fa-shopping-bag"></i> افزودن به سبد
+              </button>
+              <script>
+                  document.getElementById('addToCartBtn').addEventListener('click', function () {
+                      var gameId = this.dataset.gameId;
+                      fetch(`/api/cart/add/${gameId}/`, {
+                          method: 'POST',
+                          headers: {
+                              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                          }
+                      })
+                          .then(res => res.json())
+                          .then(data => {
+                              document.querySelector('.cart-count').textContent = data.items.length;
+                          });
+                  });
+              </script>
+          </form>
+          <ul>
+            <li><span>شناسه بازی:</span> {{ game.title }}</li>
+            <li><span>ژانر:</span> <a href="{%url 'shop' %}?category={{ game.category }}">{{ game.category }}</a></li>
+
+          </ul>
+        </div>
+        <div class="col-lg-12">
+          <div class="sep"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="more-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="tabs-content">
+            <div class="row">
+              <div class="nav-wrapper ">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">نظرات (3)</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                  </p>
+                  <br>
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                  </p>
+                </div>
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                  </p>
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                  </p>
+                  <p>
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آن چنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section categories related-games">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="section-heading">
+            <h6>اکشن</h6>
+            <h2>بازی های مرتبط</h2>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="main-button">
+            <a href="shop.html">مشاهده همه</a>
+          </div>
+        </div>
+            <div class="row">
+                    {% for related_game in related_games %}
+                        <div class="col-lg-3 col-sm-6 col-xs-12">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="{% url 'product' related_game.id %}">
+                                        <img src="{{ related_game.image.url }}" alt="">
+                                    </a>
+                                </div>
+                                <div class="down-content">
+                                    <h4>{{ related_game.title }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-heading header-text">
+    <div class="container">
+        <h3>ثبت سفارش</h3>
+        <span>
+            <a href="{% url 'cart' %}">سبد خرید</a>
+            >
+            ثبت سفارش
+        </span>
+    </div>
+</div>
+
+<div class="contact-page section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 checkout-form">
+                <div class="section-heading">
+                    <h6>اطلاعات سفارش</h6>
+                    <h2>تکمیل خرید</h2>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <label>نام و نام خانوادگی</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" name="fullname" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-4">
+                            <label>شماره موبایل</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-phone"></i>
+                                </span>
+                                <input type="text" name="phone" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <label>شهر</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                                <input type="text" name="city" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <label>کد پستی</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                <input type="text" name="postal_code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-4">
+                            <label>آدرس</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                                <textarea name="address"
+                                          rows="5"
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <button class="main-button w-100">
+                                <a href="{% url 'payment' %}">
+                                    <i  class="fa fa-shopping-cart"></i>
+                                    ثبت سفارش
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4" >
+                <div class="summary-box">
+                    <h4>خلاصه سفارش</h4>
+                    <hr>
+                    {% for item in cart.items.all %}
+                        <p style="...">
+                            {{ item.game.title }}
+                            <span>{{ item.quantity }} × ${{ item.game.price }} = ${{ item.total_price }}</span>
+                        </p>
+                    {% endfor %}
+                    <hr>
+                    <p>جمع کل <span>${{ cart.total_price }}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

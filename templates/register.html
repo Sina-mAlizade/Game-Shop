@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="page-heading header-text">
+         <div class="container">
+             <h3>ثبت نام</h3>
+         </div>
+    </div>
+
+<div class="contact-page section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="left-text">
+                    <div class="section-heading">
+                        <h6>ثبت نام</h6>
+                        <h2>ساخت حساب کاربری</h2>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                              <div class="alert alert-warning">
+                                 {{ message }}
+                             </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="نام کاربری"
+                            required
+                        >
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="ایمیل"
+                            required
+                        >
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="رمز عبور"
+                            required
+                        >
+                        <input
+                            type="password"
+                            name="confirm"
+                            placeholder="تکرار رمز عبور"
+                            required
+                        >
+                        <button class="orange-button">
+
+                            ثبت نام
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

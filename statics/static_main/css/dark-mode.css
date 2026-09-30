@@ -1,0 +1,174 @@
+/*
+---------------------------------------------
+Dark Mode Overrides (نسخه ملایم - Dim، نه سیاه مطلق)
+این فایل رو بعد از templatemo-lugx-gaming.css لینک کن
+---------------------------------------------
+*/
+
+body.dark-mode {
+  background-color: #1c1f26;
+  color: #cfd3da;
+}
+
+/* هدر */
+
+body.dark-mode header.background-header {
+  background-color: #22262f !important;
+}
+
+body.dark-mode .header-area .main-nav .nav li a {
+  color: #cfd3da;
+}
+
+/* متن‌ها و عنوان‌ها */
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #f0f1f3;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li {
+  color: #a8adb6;
+}
+
+body.dark-mode .section-heading h6 {
+  color: #ee626b;
+}
+
+/* سکشن‌های با پس‌زمینه‌ی روشن */
+
+body.dark-mode .categories,
+body.dark-mode .most-played,
+body.dark-mode section.section {
+  background-color: #1c1f26;
+}
+
+/* کارت‌های محصول / بازی */
+
+body.dark-mode .item,
+body.dark-mode .shop-products-grid .item,
+body.dark-mode .most-played .item,
+body.dark-mode .trending .item {
+  background-color: #262b35;
+}
+
+body.dark-mode .down-content h4,
+body.dark-mode .down-content h4 a {
+  color: #f0f1f3 !important;
+}
+
+body.dark-mode .down-content span.category {
+  color: #8b909a;
+}
+
+/* باکس خلاصه سفارش، فرم‌ها */
+
+body.dark-mode .summary-box {
+  background-color: #262b35;
+}
+
+body.dark-mode .summary-box p {
+  color: #c2c6cd;
+}
+
+body.dark-mode .form-control,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="number"],
+body.dark-mode textarea {
+  background-color: #262b35;
+  border-color: #3a3f4a;
+  color: #cfd3da;
+}
+
+body.dark-mode .input-group-text {
+  background-color: #2d3340 !important;
+  border-color: #3a3f4a;
+  color: #4d94ff;
+}
+
+body.dark-mode .checkout-form,
+body.dark-mode .payment-form-col {
+  color: #cfd3da;
+}
+
+/* فیلترهای دسته‌بندی و پیجینیشن */
+
+body.dark-mode .category-filter li a {
+  background-color: #262b35;
+  color: #c2c6cd;
+}
+
+body.dark-mode .category-filter li a.is_active,
+body.dark-mode .category-filter li a:hover {
+  background-color: #0071f8;
+  color: #fff;
+}
+
+body.dark-mode ul.pagination li a {
+  background-color: #262b35;
+  color: #c2c6cd;
+}
+
+body.dark-mode ul.pagination li a.is_active,
+body.dark-mode ul.pagination li a:hover {
+  background-color: #0071f8;
+  color: #fff;
+}
+
+/* تب‌های توضیحات محصول */
+
+body.dark-mode .nav-tabs .nav-link {
+  color: #c2c6cd;
+}
+
+body.dark-mode .tab-content {
+  color: #a8adb6;
+}
+
+/* دراپ‌داون مرتب‌سازی */
+
+body.dark-mode .sort-form select {
+  background-color: #262b35;
+  border-color: #3a3f4a;
+  color: #cfd3da;
+}
+
+/* آلرت‌ها */
+
+body.dark-mode .alert-warning {
+  background-color: #3a3320;
+  border-color: #5a4d28;
+  color: #f0d97e;
+}
+
+/* دکمه‌ی تغییر حالت */
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  transition: all .3s;
+}
+
+.theme-toggle-btn:hover {
+  color: #ee626b;
+}
+
+body.dark-mode .theme-toggle-btn .icon-moon {
+  display: none;
+}
+
+body.dark-mode .theme-toggle-btn .icon-sun {
+  display: inline-block !important;
+}

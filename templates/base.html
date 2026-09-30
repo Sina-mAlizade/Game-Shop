@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>قالب HTML Lugx</title>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/templatemo-lugx-gaming.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+  </head>
+
+<body>
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="{% url 'home' %}" class="logo">
+                        <img src="{% static 'images/logo.png' %}" alt="" style="width: 158px;">
+                    </a>
+                    <ul class="nav">
+                        <li>
+                            <button type="button" id="themeToggle" class="theme-toggle-btn" aria-label="حالت تاریک">
+                                <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                                </svg>
+                                <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                    <circle cx="12" cy="12" r="5"/>
+                                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                                          stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                                خانه
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'shop' %}" class="{% if request.resolver_match.url_name == 'shop' %}active{% endif %}">
+                                فروشگاه
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                                تماس با ما
+                            </a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'logout' %}">
+                                    خروج
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cart' %}" class="{% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+                                    سبد خرید
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                                    ورود
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register' %}" class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+                                    ثبت نام
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>منو</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+<main class="site-content">
+{% block content %}
+
+
+
+{% endblock %}
+</main>
+  <footer>
+    <div class="container">
+      <div class="col-lg-12">
+        <p>کلیه حقوق محفوظ است. &nbsp;&nbsp; <a rel="nofollow" href="https://persian-theme.com" target="_blank">طراحی: پرشین تم</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/isotope.min.js' %}"></script>
+  <script src="{% static 'js/owl-carousel.js' %}"></script>
+  <script src="{% static 'js/counter.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+  <script src="{% static 'js/dark-mode.js' %}"></script>
+  <script src="{% static 'js/cart-api.js' %}"></script>
+
+  </body>
+</html>

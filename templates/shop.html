@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    فروشگاه
+{% endblock %}
+
+{% block content %}
+    <div class="page-heading header-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>فروشگاه</h3>
+                    <span class="breadcrumb"><a href="{% url 'home' %}">خانه</a> > فروشگاه</span>
+                </div>
+            </div>
+        </div>
+        <div class="search-input">
+            <form id= "search" method="GET" class="shop-search">
+                <div  class="row">
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            name="q"
+                            placeholder="نام بازی یا دسته بندی..."
+                            value="{{ query | default:'' }}" >
+
+                    <div class="col-lg-2">
+                        <button class="btn btn-danger w-100">
+                            جستجو
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="liveSearchResults" style="display:none; position:absolute; top:100%; right:0; left:0; background:#fff; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.1); z-index:100;"></div>
+        </div>
+    </div>
+    <div class="section trending">
+        <div class="container">
+
+            <div class="shop-toolbar">
+                <ul class="category-filter">
+                    <li>
+                        <a class="{% if not selected_category %}is_active{% endif %}"
+                           href="{% url 'shop' %}?sort={{ selected_sort }}">مشاهده همه</a>
+                    </li>
+                    {% for cat in categories %}
+                        <li>
+                            <a href="{% url 'shop' %}?category={{ cat }}&sort={{ selected_sort }}"
+                               class="{% if selected_category == cat %}is_active{% endif %}">{{ cat }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <form method="GET" id="sortForm" class="sort-form">
+                    {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+                    {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+                    <label for="sortSelect">مرتب‌سازی</label>
+                    <select name="sort" id="sortSelect" onchange="document.getElementById('sortForm').submit()">
+                        <option value="newest" {% if selected_sort == "newest" %}selected{% endif %}>جدیدترین</option>
+                        <option value="oldest" {% if selected_sort == "oldest" %}selected{% endif %}>قدیمی‌ترین</option>
+                        <option value="cheap" {% if selected_sort == "cheap" %}selected{% endif %}>ارزان‌ترین</option>
+                        <option value="expensive" {% if selected_sort == "expensive" %}selected{% endif %}>گران‌ترین</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="row shop-products-grid">
+                {% for game in games %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="item">
+                            <div class="thumb">
+                                <a href="{% url 'product' game.id %}">
+                                    <img src="{{ game.image.url }}" alt="">
+                                </a>
+                            </div>
+                            <div class="down-content">
+                                <span>
+                                    {{ game.category }}
+                                </span>
+                                <h4>
+                                    {{ game.title }}
+                                </h4>
+                                <span>
+                                    ${{ game.price }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if not games %}
+                <div class="alert alert-warning">
+                    هیچ بازی پیدا نشد.
+                </div>
+            {% endif %}
+
+            {% if games.paginator.num_pages > 1 %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+
+                            {% if games.has_previous %}
+                                <li>
+                                    <a href="?page={{ games.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}&sort={{ selected_sort }}"> &lt; </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in games.paginator.page_range %}
+                                <li>
+                                    <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}&sort={{ selected_sort }}"
+                                       class="{% if games.number == num %}is_active{% endif %}">
+                                        {{ num }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            {% if games.has_next %}
+                                <li>
+                                    <a href="?page={{ games.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}&sort={{ selected_sort }}"> &gt; </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

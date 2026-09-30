@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    پرداخت
+{% endblock %}
+
+{% block content %}
+
+<div class="page-heading header-text">
+    <div class="container">
+        <h3>پرداخت</h3>
+        <span>
+            <a href="{% url 'home' %}">خانه</a>
+            >
+            پرداخت
+        </span>
+    </div>
+</div>
+
+<div class="payment-page section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 payment-form-col">
+                <div class="section-heading">
+                    <h6>پرداخت امن</h6>
+                    <h2>اطلاعات کارت بانکی</h2>
+                </div>
+
+                <form method="POST" id="paymentForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <div class="input-group">
+                                <label>مبلغ قابل پرداخت :&nbsp;</label>
+                                <span class="input-group-text">
+                                    &nbsp;${{ cart.total_price }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-4">
+                            <label>شماره کارت</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-credit-card"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    id="cardNumber"
+                                    name="card_number"
+                                    class="form-control"
+                                    placeholder="•••• •••• •••• ••••"
+                                    maxlength="19"
+                                    inputmode="numeric"
+                                    autocomplete="cc-number"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <label>تاریخ انقضا</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    id="cardExpiry"
+                                    name="card_expiry"
+                                    class="form-control"
+                                    placeholder="MM/YY"
+                                    maxlength="5"
+                                    inputmode="numeric"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <label>CVV2</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input
+                                    type="password"
+                                    id="cardCvv"
+                                    name="card_cvv"
+                                    class="form-control"
+                                    placeholder="***"
+                                    maxlength="4"
+                                    inputmode="numeric"
+                                    autocomplete="cc-csc"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <label>رمز پویا</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input
+                                    type="password"
+                                    id="dynamicPassword"
+                                    name="dynamic_password"
+                                    class="form-control"
+                                    placeholder="***"
+                                    maxlength="6"
+                                    inputmode="numeric"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <label>&nbsp;</label>
+                            <button type="button" class="otp-button">
+                                درخواست رمز پویا
+                            </button>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <button type="submit" class="otp-button">
+                                <i class="fa fa-shopping-cart"></i>
+                                ثبت سفارش
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="payment-secure-note">
+                    <i class="fa fa-shield"></i>
+                    پرداخت شما از طریق درگاه امن بانکی انجام می‌شود.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="otp-modal-overlay" id="otpModalOverlay">
+    <div class="otp-modal-box">
+        <button type="button" class="otp-modal-close" id="otpModalClose">
+            <i class="fa fa-times"></i>
+        </button>
+
+        <div class="otp-modal-icon">
+            <i class="fa fa-mobile"></i>
+        </div>
+
+        <h4>کد رمز پویا ارسال شد</h4>
+        <p>کد ۶ رقمی به شماره موبایل شما پیامک شد.</p>
+
+        <input
+            type="text"
+            id="otpCodeInput"
+            class="otp-code-input"
+            maxlength="6"
+            inputmode="numeric"
+            placeholder="——————"
+        >
+
+        <button type="button" class="otp-button" id="otpConfirmBtn">
+            تایید کد
+        </button>
+
+        <div class="otp-resend">
+            ارسال مجدد کد تا <span id="otpTimer">۰۰:۶۰</span>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var cardNumber = document.getElementById('cardNumber');
+    var cardExpiry = document.getElementById('cardExpiry');
+
+    if (cardNumber) {
+        cardNumber.addEventListener('input', function () {
+            var digits = this.value.replace(/\D/g, '').slice(0, 16);
+            var groups = digits.match(/.{1,4}/g) || [];
+            this.value = groups.join(' ');
+        });
+    }
+
+    if (cardExpiry) {
+        cardExpiry.addEventListener('input', function () {
+            var digits = this.value.replace(/\D/g, '').slice(0, 4);
+            if (digits.length >= 3) {
+                this.value = digits.slice(0, 2) + '/' + digits.slice(2);
+            } else {
+                this.value = digits;
+            }
+        });
+    }
+})();
+
+(function () {
+    var otpButton = document.querySelector('.otp-button');
+    var otpOverlay = document.getElementById('otpModalOverlay');
+    var otpClose = document.getElementById('otpModalClose');
+    var otpConfirm = document.getElementById('otpConfirmBtn');
+    var otpTimerEl = document.getElementById('otpTimer');
+
+    var timerInterval = null;
+
+    function startTimer() {
+        var seconds = 60;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(function () {
+            seconds--;
+            var display = '00:' + (seconds < 10 ? '0' + seconds : seconds);
+            if (otpTimerEl) otpTimerEl.textContent = display;
+            if (seconds <= 0) clearInterval(timerInterval);
+        }, 1000);
+    }
+
+    function openModal() {
+        if (otpOverlay) otpOverlay.classList.add('active');
+        startTimer();
+    }
+
+    function closeModal() {
+        if (otpOverlay) otpOverlay.classList.remove('active');
+        clearInterval(timerInterval);
+    }
+
+    if (otpButton) {
+        otpButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            openModal();
+        });
+    }
+
+    if (otpClose) {
+        otpClose.addEventListener('click', closeModal);
+    }
+
+    if (otpOverlay) {
+        otpOverlay.addEventListener('click', function (e) {
+            if (e.target === otpOverlay) closeModal();
+        });
+    }
+
+    if (otpConfirm) {
+        otpConfirm.addEventListener('click', function () {
+            var codeInput = document.getElementById('otpCodeInput');
+            var code = codeInput ? codeInput.value : '';
+            if (code.length === 6) {
+                closeModal();
+            } else {
+                alert('کد ۶ رقمی رو کامل وارد کن.');
+            }
+        });
+    }
+})();
+</script>
+
+{% endblock %}
